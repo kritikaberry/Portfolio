@@ -82,10 +82,33 @@ window.addEventListener('scroll', updateActiveNav);
 const navToggle = document.getElementById('navToggle');
 const navLinksContainer = document.querySelector('.nav-links');
 
-if (navToggle) {
+if (navToggle && navLinksContainer) {
   navToggle.addEventListener('click', () => {
     navLinksContainer.classList.toggle('active');
     navToggle.classList.toggle('active');
+  });
+  navLinksContainer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksContainer.classList.remove('active');
+      navToggle.classList.remove('active');
+    });
+  });
+}
+
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const syncThemeToggle = () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeToggle.setAttribute('aria-pressed', String(dark));
+    themeToggle.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+  };
+  syncThemeToggle();
+  themeToggle.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = dark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('kb-theme', next); } catch (e) {}
+    syncThemeToggle();
   });
 }
 
@@ -159,17 +182,18 @@ window.addEventListener('load', () => {
 function animateStats() {
   const stats = document.querySelectorAll('.stat-number');
   stats.forEach(stat => {
-    const target = parseInt(stat.textContent);
+    const target = parseInt(stat.textContent, 10);
+    const suffix = stat.dataset.suffix || '';
     if (!isNaN(target)) {
       let current = 0;
       const increment = target / 50;
       const timer = setInterval(() => {
         current += increment;
         if (current >= target) {
-          stat.textContent = target + '+';
+          stat.textContent = String(target) + suffix;
           clearInterval(timer);
         } else {
-          stat.textContent = Math.floor(current) + '+';
+          stat.textContent = String(Math.floor(current)) + suffix;
         }
       }, 30);
     }
@@ -198,7 +222,8 @@ projectCards.forEach(card => {
     this.style.cursor = 'pointer';
   });
   
-  card.addEventListener('click', function() {
+  card.addEventListener('click', function(event) {
+    if (event.target.closest('.project-link')) return;
     const link = this.querySelector('.project-link');
     if (link) {
       link.click();
@@ -208,10 +233,10 @@ projectCards.forEach(card => {
 
 // Inline Hats Animation - Role Rotation (Next to Berry)
 const roles = [
-  { emoji: '👨‍💻', text: 'Full Stack Engineer' },
-  { emoji: '🎩', text: 'DevOps Specialist' },
-  { emoji: '🎓', text: 'AI Engineer' },
-  { emoji: '🎯', text: 'Product Manager' }
+  { emoji: '🧭', text: 'Forward Deployed Engineer' },
+  { emoji: '🧠', text: 'AI Engineer' },
+  { emoji: '👩‍💻', text: 'Software Engineer' },
+  { emoji: '📜', text: 'Research Specialist' }
 ];
 
 let currentRoleIndex = 0;
@@ -265,6 +290,111 @@ window.addEventListener('load', () => {
     setInterval(switchHat, 3500);
   }
 });
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const guideMarkup = `
+  <span class="line-push-guide" aria-hidden="true">
+    <svg class="guide-svg" viewBox="0 0 36 44">
+      <circle class="guide-head" cx="13" cy="7.2" r="3.05"/>
+      <path class="guide-body" d="M13 10.4v10.7"/>
+      <path class="guide-arm-hold" d="M13 13.4c1.8 1.1 3.6 2.2 6.6 2.9"/>
+      <path class="guide-arm-push" d="M13 14.6 29.6 18.5"/>
+      <circle class="guide-hand" cx="30.2" cy="18.6" r="1.2"/>
+      <g class="guide-leg guide-leg-a"><path d="M13 21.2 8.4 35.2"/></g>
+      <g class="guide-leg guide-leg-b"><path d="M13 21.2 18.4 35.2"/></g>
+    </svg>
+  </span>
+`;
+
+document.querySelectorAll('.line-push[data-guide]').forEach(el => {
+  if (!el.querySelector('.line-push-guide')) {
+    el.insertAdjacentHTML('afterbegin', guideMarkup);
+  }
+});
+
+const setPush = (el, value) => {
+  const next = Math.max(0, Math.min(1, value));
+  el.style.setProperty('--push', next.toFixed(3));
+  el.classList.toggle('is-walking', next > 0.06 && next < 0.97);
+  el.classList.toggle('is-visible', next > 0.92);
+};
+
+const heroInvite = document.getElementById('heroInvite');
+if (heroInvite && !prefersReducedMotion) {
+  const revealInvite = () => {
+    const raw = (window.scrollY - 6) / 130;
+    const clamped = Math.max(0, Math.min(1, raw));
+    const eased = clamped * clamped * (3 - 2 * clamped);
+    setPush(heroInvite, eased);
+  };
+  revealInvite();
+  window.addEventListener('scroll', revealInvite, { passive: true });
+} else if (heroInvite) {
+  setPush(heroInvite, 1);
+}
+
+document.querySelectorAll('.line-push:not([data-push="scroll"])').forEach(el => {
+  el.setAttribute('data-push', 'inview');
+});
+
+if (!prefersReducedMotion) {
+  const lineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('is-visible', 'is-walking');
+      window.setTimeout(() => el.classList.remove('is-walking'), 1400);
+      lineObserver.unobserve(el);
+    });
+  }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.line-push[data-push="inview"]').forEach(el => {
+    lineObserver.observe(el);
+  });
+} else {
+  document.querySelectorAll('.line-push[data-push="inview"]').forEach(el => {
+    el.classList.add('is-visible');
+  });
+}
+
+// After the experience has been read, offer the resume once.
+const resumeNote = document.getElementById('resumeNote');
+const resumeDismiss = document.getElementById('resumeDismiss');
+
+if (resumeNote && sessionStorage.getItem('kb-resume-note') !== 'dismissed') {
+  const showResumeNote = () => {
+    resumeNote.classList.add('is-visible');
+    resumeNote.setAttribute('aria-hidden', 'false');
+    const line = resumeNote.querySelector('.line-push');
+    if (line) {
+      line.classList.add('is-visible', 'is-walking');
+      window.setTimeout(() => line.classList.remove('is-walking'), 1400);
+    }
+  };
+
+  const resumeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        showResumeNote();
+        resumeObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.6 });
+
+  resumeObserver.observe(resumeNote);
+
+  if (resumeDismiss) {
+    resumeDismiss.addEventListener('click', () => {
+      sessionStorage.setItem('kb-resume-note', 'dismissed');
+      resumeNote.classList.remove('is-visible');
+      resumeNote.classList.add('is-dismissed');
+      resumeNote.setAttribute('aria-hidden', 'true');
+    });
+  }
+} else if (resumeNote) {
+  resumeNote.classList.add('is-dismissed');
+}
 
 // Projects Filter Dropdown Functionality
 document.addEventListener('DOMContentLoaded', () => {
