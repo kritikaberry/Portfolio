@@ -1,3 +1,14 @@
+let nameBootUntil = 0;
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains('name-boot')) return;
+  try { localStorage.setItem('kb-name-glitch', '1'); } catch (e) {}
+  nameBootUntil = performance.now() + 2800;
+  window.setTimeout(function () {
+    root.classList.remove('name-boot');
+  }, 2800);
+})();
+
 // Expandable Experience Cards
 document.addEventListener('DOMContentLoaded', function() {
   const experienceCards = document.querySelectorAll('[data-card]');
@@ -283,69 +294,92 @@ const roles = [
 ];
 
 let currentRoleIndex = 0;
+let roleTimer = null;
+
+function typeRole(text) {
+  const roleDisplay = document.querySelector('.current-role-inline');
+  if (!roleDisplay) return;
+  if (roleTimer) window.clearTimeout(roleTimer);
+  if (prefersReducedMotion) {
+    roleDisplay.textContent = text;
+    return;
+  }
+  roleDisplay.textContent = '';
+  let i = 0;
+  const tick = () => {
+    i += 1;
+    roleDisplay.textContent = text.slice(0, i);
+    if (i < text.length) roleTimer = window.setTimeout(tick, 36);
+  };
+  tick();
+}
 
 function switchHat() {
   const hatElements = document.querySelectorAll('.hat-inline');
   const roleDisplay = document.querySelector('.current-role-inline');
-  
+
   if (hatElements.length === 0 || !roleDisplay) return;
-  
-  // Smooth fade out current hat
+
   const currentHat = document.querySelector('.hat-inline-active');
-  if (currentHat) {
-    currentHat.style.transition = 'all 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
-    currentHat.classList.remove('hat-inline-active');
-  }
-  
-  // Update role text with smooth fade
-  roleDisplay.style.transition = 'all 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
-  roleDisplay.style.opacity = '0';
-  roleDisplay.style.transform = 'translateX(-8px)';
-  
-  // After fade out, switch to next hat
-  setTimeout(() => {
-    currentRoleIndex = (currentRoleIndex + 1) % roles.length;
-    const nextHat = hatElements[currentRoleIndex];
-    
-    // Update role text first (while hidden)
-    roleDisplay.textContent = roles[currentRoleIndex].text;
-    
-    // Add active class to next hat with smooth animation
-    nextHat.style.transition = 'all 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
-    nextHat.classList.add('hat-inline-active');
-    
-    // Fade in role text smoothly
-    setTimeout(() => {
-      roleDisplay.style.opacity = '1';
-      roleDisplay.style.transform = 'translateX(0)';
-    }, 200);
-  }, 700);
+  if (currentHat) currentHat.classList.remove('hat-inline-active');
+
+  currentRoleIndex = (currentRoleIndex + 1) % roles.length;
+  const nextHat = hatElements[currentRoleIndex];
+  if (nextHat) nextHat.classList.add('hat-inline-active');
+  typeRole(roles[currentRoleIndex].text);
 }
 
 // Initialize: Set first hat as active when page loads
 window.addEventListener('load', () => {
   const hatElements = document.querySelectorAll('.hat-inline');
   const roleDisplay = document.querySelector('.current-role-inline');
-  
+
   if (hatElements.length > 0 && roleDisplay) {
-    hatElements[0].classList.add('hat-inline-active');
-    // Switch hat every 3.5 seconds for smoother transitions
-    setInterval(switchHat, 3500);
+    const begin = () => {
+      hatElements[0].classList.add('hat-inline-active');
+      typeRole(roles[0].text);
+      setInterval(switchHat, 4200);
+    };
+    const wait = Math.max(0, nameBootUntil - performance.now());
+    if (wait) window.setTimeout(begin, wait);
+    else begin();
   }
 });
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+if (!prefersReducedMotion) {
+  let flowQueued = false;
+  const updateFlow = () => {
+    flowQueued = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    document.documentElement.style.setProperty('--flow', progress.toFixed(4));
+  };
+  window.addEventListener('scroll', () => {
+    if (flowQueued) return;
+    flowQueued = true;
+    window.requestAnimationFrame(updateFlow);
+  }, { passive: true });
+  updateFlow();
+}
+
 const guideMarkup = `
   <span class="line-push-guide" aria-hidden="true">
-    <svg class="guide-svg" viewBox="0 0 36 44">
-      <circle class="guide-head" cx="13" cy="7.2" r="3.05"/>
-      <path class="guide-body" d="M13 10.4v10.7"/>
-      <path class="guide-arm-hold" d="M13 13.4c1.8 1.1 3.6 2.2 6.6 2.9"/>
-      <path class="guide-arm-push" d="M13 14.6 29.6 18.5"/>
-      <circle class="guide-hand" cx="30.2" cy="18.6" r="1.2"/>
-      <g class="guide-leg guide-leg-a"><path d="M13 21.2 8.4 35.2"/></g>
-      <g class="guide-leg guide-leg-b"><path d="M13 21.2 18.4 35.2"/></g>
+    <svg class="guide-svg" viewBox="0 0 42 50">
+      <circle class="guide-head" cx="15" cy="7.2" r="4.1"/>
+      <path class="guide-body" d="M15 11.6v12.4"/>
+      <path class="guide-arm-hold" d="M15 15.2c2.4 1.4 4.8 2.6 8.4 3.4"/>
+      <path class="guide-arm-push" d="M15 16.4 34.4 20.6"/>
+      <circle class="guide-hand" cx="35.1" cy="20.8" r="1.75"/>
+      <g class="guide-leg guide-leg-a">
+        <path d="M15 24 9 40.4"/>
+        <path d="M9 40.4 4.6 40.8"/>
+      </g>
+      <g class="guide-leg guide-leg-b">
+        <path d="M15 24 21.6 40.4"/>
+        <path d="M21.6 40.4 26.2 40.8"/>
+      </g>
     </svg>
   </span>
 `;
@@ -365,14 +399,15 @@ const setPush = (el, value) => {
 
 const heroInvite = document.getElementById('heroInvite');
 if (heroInvite && !prefersReducedMotion) {
-  const revealInvite = () => {
-    const raw = (window.scrollY - 6) / 130;
-    const clamped = Math.max(0, Math.min(1, raw));
-    const eased = clamped * clamped * (3 - 2 * clamped);
+  const start = performance.now();
+  const duration = 1500;
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = t * t * (3 - 2 * t);
     setPush(heroInvite, eased);
+    if (t < 1) window.requestAnimationFrame(step);
   };
-  revealInvite();
-  window.addEventListener('scroll', revealInvite, { passive: true });
+  window.requestAnimationFrame(step);
 } else if (heroInvite) {
   setPush(heroInvite, 1);
 }

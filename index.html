@@ -10,17 +10,33 @@
         if (theme === 'dark' || theme === 'light') {
           document.documentElement.setAttribute('data-theme', theme);
         }
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduceMotion && !localStorage.getItem('kb-name-glitch')) {
+          document.documentElement.classList.add('name-boot');
+        }
       } catch (e) {}
     })();
   </script>
   <title>Kritika Berry | AI &amp; Full-Stack Engineer</title>
   <meta name="description" content="Kritika Berry turns ambiguous problems into AI systems that run in production. Forward deployed engineering, product sense, and the work of shipping with real users.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,460;1,9..144,560&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pixelify+Sans:ital,wght@0,400;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,500;1,8..60,600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <svg class="name-glitch-filter" aria-hidden="true" focusable="false">
+    <filter id="kb-name-glitch" x="-12%" y="-25%" width="124%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.45" numOctaves="1" seed="4" result="noise">
+        <animate attributeName="baseFrequency" values="0.012 0.7;0.006 0.28;0.001 0.02" dur="2.8s" fill="freeze" calcMode="spline" keySplines="0.22 0.8 0.2 1;0.16 1 0.3 1"/>
+      </feTurbulence>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="shift"/>
+      <feDisplacementMap in="SourceGraphic" in2="shift" scale="7" xChannelSelector="R" yChannelSelector="G">
+        <animate attributeName="scale" values="3;1;0" dur="2.8s" fill="freeze" calcMode="spline" keySplines="0.22 0.8 0.2 1;0.16 1 0.3 1"/>
+      </feDisplacementMap>
+    </filter>
+  </svg>
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-container">
@@ -54,9 +70,9 @@
       <div class="hero-content">
         <div class="hero-greeting">Hi, I'm</div>
         <h1 class="hero-name">
-          <span class="name-first">Kritika</span>
+          <span class="name-first"><span class="name-word">Kritika</span></span>
           <span class="name-last">
-            Berry
+            <span class="name-word">Berry</span>
             <span class="hats-inline">
               <span class="hat-wrapper-inline">
                 <span class="hat-inline hat-inline-active" data-role="Forward Deployed Engineer">🧭</span>
@@ -65,16 +81,17 @@
                 <span class="hat-inline" data-role="Research Specialist">📜</span>
               </span>
               <span class="role-inline">
+                <span class="role-prompt" aria-hidden="true">&gt;</span>
                 <span class="current-role-inline">Forward Deployed Engineer</span>
               </span>
             </span>
           </span>
         </h1>
         <p class="hero-description">
-          I turn ambiguous problems into AI systems that run in production,
-          built with the people who have to use them.
+          I build AI for the person who has to decide,
+          with the people who have to use it.
         </p>
-        <p class="hero-invite line-push" id="heroInvite" data-push="scroll" data-guide>
+        <p class="hero-invite line-push" id="heroInvite" data-guide>
           <span class="line-push-text">I am always ready to connect and innovate. Let us build together.</span>
         </p>
         <div class="hero-actions">
@@ -112,8 +129,12 @@
           <div class="avatar-container">
             <div class="avatar-ring"></div>
             <div class="avatar-ring ring-2"></div>
-            <div class="avatar-placeholder">
-              <span>KB</span>
+            <div class="avatar-placeholder avatar-mark" role="img" aria-label="Laptop">
+              <svg class="laptop-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                <rect x="12" y="14" width="40" height="28" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.75"/>
+                <path d="M16 22h14M16 28h22M16 34h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M6 44h52l-3.5 6H9.5L6 44z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+              </svg>
             </div>
           </div>
           </div>
@@ -136,28 +157,22 @@
       <div class="about-content">
         <div class="about-text">
           <p class="about-intro">
-            I stay close to the problem. At Providence that meant moving from machine learning
-            to DevOps to GenAI, picking up the stack in front of me, and shipping with the teams
-            who had to live with it.
+            I work across AI, DevOps, and full stack. I can take a niche I know and deliver it as a product manager, a solutions architect, an AI engineer, or a software engineer.
           </p>
-          <p class="about-detail">
-            I'm now in the M.S. in Computer Science at George Washington University, on a merit
-            scholarship, researching workforce credentials at the George Washington Institute of
-            Public Policy. The question under the work is simple: does this help someone decide,
-            or does it only look finished?
-          </p>
+          <p class="about-open"><span aria-hidden="true">&gt;</span> Open to Product Manager, Solutions Architect, AI Engineer, and Software Engineer.</p>
           <div class="about-stats">
             <div class="stat-item">
-              <div class="stat-number" data-suffix="+">3</div>
+              <div class="stat-number" data-suffix="+">4+</div>
               <div class="stat-label">Years Shipping</div>
+              <div class="stat-kpis">
+                <span>AI</span>
+                <span>DevOps</span>
+                <span>Full Stack</span>
+              </div>
             </div>
             <div class="stat-item">
               <div class="stat-number">3</div>
               <div class="stat-label">Hackathon Wins</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">25</div>
-              <div class="stat-label">Public Repos</div>
             </div>
           </div>
         </div>
@@ -1107,6 +1122,22 @@
             <div class="badge-icon">🎤</div>
             <div class="badge-content">
               <div class="badge-rank">Talk</div>
+              <h3 class="badge-title">Elastic Community</h3>
+              <p class="badge-description">Speaker at the Elastic Washington, D.C. User Group</p>
+              <div class="badge-detail">
+                <p>Dashboards to Decisions: a self-correcting ML loop with Elastic Observability</p>
+              </div>
+              <div class="badge-date">Sep 16, 2026</div>
+            </div>
+          </div>
+          <div class="badge-shine"></div>
+        </div>
+        <div class="achievement-badge">
+          <div class="badge-ribbon ribbon-top"></div>
+          <div class="badge-body">
+            <div class="badge-icon">🎤</div>
+            <div class="badge-content">
+              <div class="badge-rank">Talk</div>
               <h3 class="badge-title">Featured Speaker</h3>
               <p class="badge-description">BadgeSummit 2026 at CU Boulder, on credential alignment and the research behind it</p>
               <div class="badge-detail">
@@ -1243,7 +1274,6 @@
             Clusters credential text with five algorithms, scores every batch in Elasticsearch and Kibana,
             and promotes a new model version when quality drops.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So a model can notice when it is slipping, and correct itself.</span></p>
           <div class="project-tech">
             <span>Python</span>
             <span>scikit-learn</span>
@@ -1264,7 +1294,6 @@
             Turns inbound emails and calls into triaged, routed, SLA-tracked tickets.
             The React dashboard shows live KPIs, trends, and notifications over WebSocket.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So a support lead can see friction before it becomes a backlog.</span></p>
           <div class="project-tech">
             <span>TypeScript</span>
             <span>React</span>
@@ -1285,7 +1314,6 @@
             GeorgeHacks platform for coordinating food aid around disasters.
             React and FastAPI connect vendors, farmers, NGOs, and donors, with maps and MongoDB.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So food aid can move before, during, and after a disaster.</span></p>
           <div class="project-tech">
             <span>React</span>
             <span>FastAPI</span>
@@ -1306,7 +1334,6 @@
             TAI Hackathon project with team JVAAKOS. A pipeline cleans fragmented AI incident reports
             into one dataset, with a public Streamlit dashboard for trends and harm analytics.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So a policy reader can study incidents as a record, not a pile of reports.</span></p>
           <div class="project-tech">
             <span>Python</span>
             <span>Jupyter</span>
@@ -1325,7 +1352,6 @@
             Flask app that geocodes a place and time, then uses a random forest
             to estimate which crime category is most prominent there.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So a place and a time can be read as a pattern.</span></p>
           <div class="project-tech">
             <span>Python</span>
             <span>Flask</span>
@@ -1345,7 +1371,6 @@
             Live camera detector that tells a surgical mask from an uncovered face,
             built with OpenCV and Flask, plus links to COVID-19 updates.
           </p>
-          <p class="project-impact line-push"><span class="line-push-text">So a public entrance can tell whether a mask is on.</span></p>
           <div class="project-tech">
             <span>Python</span>
             <span>Flask</span>
