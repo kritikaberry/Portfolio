@@ -30,6 +30,49 @@ document.addEventListener('DOMContentLoaded', function() {
       headerMain.addEventListener('click', handleToggle);
     }
   });
+
+  const work = document.getElementById('work');
+  const expList = document.getElementById('expList');
+  const expMap = document.getElementById('expMap');
+  const expSwitch = document.querySelectorAll('[data-exp-view]');
+  const mapPins = document.querySelectorAll('.map-pin');
+  const mapPanels = document.querySelectorAll('.journey-panel');
+
+  expSwitch.forEach(button => {
+    button.addEventListener('click', () => {
+      const showMap = button.dataset.expView === 'map';
+      expSwitch.forEach(item => {
+        const on = item === button;
+        item.classList.toggle('is-active', on);
+        item.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      work.classList.toggle('is-map', showMap);
+      expList.hidden = showMap;
+      expMap.hidden = !showMap;
+      const journeyLead = expMap.querySelector('.journey-lead');
+      if (showMap && journeyLead && !journeyLead.classList.contains('is-visible')) {
+        window.requestAnimationFrame(() => {
+          journeyLead.classList.add('is-visible', 'is-walking');
+          window.setTimeout(() => journeyLead.classList.remove('is-walking'), 1400);
+        });
+      }
+    });
+  });
+
+  const showPlace = (place) => {
+    mapPins.forEach(pin => {
+      const on = pin.dataset.place === place;
+      pin.classList.toggle('is-active', on);
+      pin.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    mapPanels.forEach(panel => {
+      panel.hidden = panel.dataset.panel !== place;
+    });
+  };
+
+  mapPins.forEach(pin => {
+    pin.addEventListener('click', () => showPlace(pin.dataset.place));
+  });
 });
 
 // Smooth Scroll Navigation
