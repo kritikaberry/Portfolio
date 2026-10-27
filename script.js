@@ -315,35 +315,22 @@ function typeRole(text) {
 }
 
 function switchHat() {
-  const hatElements = document.querySelectorAll('.hat-inline');
   const roleDisplay = document.querySelector('.current-role-inline');
-
-  if (hatElements.length === 0 || !roleDisplay) return;
-
-  const currentHat = document.querySelector('.hat-inline-active');
-  if (currentHat) currentHat.classList.remove('hat-inline-active');
-
+  if (!roleDisplay || roles.length === 0) return;
   currentRoleIndex = (currentRoleIndex + 1) % roles.length;
-  const nextHat = hatElements[currentRoleIndex];
-  if (nextHat) nextHat.classList.add('hat-inline-active');
   typeRole(roles[currentRoleIndex].text);
 }
 
-// Initialize: Set first hat as active when page loads
 window.addEventListener('load', () => {
-  const hatElements = document.querySelectorAll('.hat-inline');
   const roleDisplay = document.querySelector('.current-role-inline');
-
-  if (hatElements.length > 0 && roleDisplay) {
-    const begin = () => {
-      hatElements[0].classList.add('hat-inline-active');
-      typeRole(roles[0].text);
-      setInterval(switchHat, 4200);
-    };
-    const wait = Math.max(0, nameBootUntil - performance.now());
-    if (wait) window.setTimeout(begin, wait);
-    else begin();
-  }
+  if (!roleDisplay) return;
+  const begin = () => {
+    typeRole(roles[0].text);
+    setInterval(switchHat, 4200);
+  };
+  const wait = Math.max(0, nameBootUntil - performance.now());
+  if (wait) window.setTimeout(begin, wait);
+  else begin();
 });
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
