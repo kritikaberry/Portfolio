@@ -130,7 +130,15 @@ function updateActiveNav() {
   });
 }
 
-window.addEventListener('scroll', updateActiveNav);
+let navTicking = false;
+window.addEventListener('scroll', () => {
+  if (navTicking) return;
+  navTicking = true;
+  window.requestAnimationFrame(() => {
+    updateActiveNav();
+    navTicking = false;
+  });
+}, { passive: true });
 
 // Mobile Navigation Toggle
 const navToggle = document.getElementById('navToggle');
@@ -166,44 +174,7 @@ if (themeToggle) {
   });
 }
 
-// Intersection Observer for Animations
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
-}, observerOptions);
-
-// Observe elements for animation
-document.addEventListener('DOMContentLoaded', () => {
-  const animateElements = document.querySelectorAll('.project-card, .timeline-item, .stat-item, .skill-category');
-  
-  animateElements.forEach((el, index) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-    observer.observe(el);
-  });
-});
-
-// Parallax Effect for Hero Background
-window.addEventListener('scroll', () => {
-  const scrolled = window.pageYOffset;
-  const hero = document.querySelector('.hero');
-  if (hero) {
-    const heroBefore = hero.querySelector('::before');
-    if (heroBefore) {
-      hero.style.setProperty('--scroll', `${scrolled * 0.5}px`);
-    }
-  }
-});
+// Keep all sections and project cards immediately visible on load (no opacity-0 reveal stall)
 
 // Add subtle animation to floating elements
 const floatingElements = document.querySelectorAll('.float-element');
@@ -461,8 +432,21 @@ if (resumeNote && sessionStorage.getItem('kb-resume-note') !== 'dismissed') {
   resumeNote.classList.add('is-dismissed');
 }
 
-// Projects Filter Dropdown Functionality
+// Skills expander in About
 document.addEventListener('DOMContentLoaded', () => {
+  const skillsToggle = document.getElementById('skillsToggle');
+  const aboutSkills = document.querySelector('.about-skills');
+  if (skillsToggle && aboutSkills) {
+    skillsToggle.addEventListener('click', () => {
+      const expanded = aboutSkills.classList.toggle('is-expanded');
+      skillsToggle.setAttribute('aria-expanded', String(expanded));
+      skillsToggle.textContent = expanded ? 'Show fewer skills' : 'Show all skills';
+    });
+  }
+});
+
+// Projects Filter Dropdown Functionality — set up only when Projects nears the viewport
+function initProjectsFilter() {
   const filterToggle = document.getElementById('filterToggle');
   const filterMenu = document.getElementById('filterMenu');
   const filterSearch = document.getElementById('filterSearch');
@@ -484,14 +468,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Sort skills alphabetically
   const sortedSkills = Array.from(allSkills).sort();
   
-  // Populate filter options
+  // Populate filter options in a single fragment
+  const frag = document.createDocumentFragment();
   sortedSkills.forEach(skill => {
     const option = document.createElement('div');
     option.className = 'filter-option';
     option.textContent = skill;
     option.setAttribute('data-filter', skill);
-    filterOptions.appendChild(option);
+    frag.appendChild(option);
   });
+  filterOptions.appendChild(frag);
   
   let currentFilter = 'all';
   
@@ -571,20 +557,135 @@ document.addEventListener('DOMContentLoaded', () => {
   function filterProjects(filterValue) {
     projectCards.forEach(card => {
       const skills = card.getAttribute('data-skills');
-      
-      if (filterValue === 'all' || (skills && skills.includes(filterValue))) {
-        card.classList.remove('filtered-out');
-        setTimeout(() => {
-          card.style.opacity = '1';
-          card.style.transform = 'scale(1)';
-        }, 10);
-      } else {
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-          card.classList.add('filtered-out');
-        }, 300);
-      }
+      const show = filterValue === 'all' || (skills && skills.includes(filterValue));
+      card.classList.toggle('filtered-out', !show);
     });
   }
-});
+}
+
+let projectsFilterStarted = false;
+function startProjectsFilter() {
+  if (projectsFilterStarted) return;
+  projectsFilterStarted = true;
+  initProjectsFilter();
+}
+
+const filterToggleBtn = document.getElementById('filterToggle');
+if (filterToggleBtn) {
+  filterToggleBtn.addEventListener('pointerdown', startProjectsFilter, { once: true, passive: true });
+}
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(startProjectsFilter, { timeout: 300 });
+} else {
+  window.setTimeout(startProjectsFilter, 0);
+}
+
+// Cursor ripple trail (short-lived wave on move, idle-zero CPU)
+(function initCursorWave() {
+  const canvas = document.querySelector('.cursor-wave-canvas');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const ripples = [];
+  let lastX = 0;
+  let lastY = 0;
+  let lastSpawn = 0;
+  let rafId = 0;
+  const lifeMs = 680;
+  const minGapMs = 36;
+  const minDist = 10;
+
+  const readWaveColor = () => {
+    const styles = getComputedStyle(document.documentElement);
+    const rgb = styles.getPropertyValue('--accent-rgb').trim() || '31, 78, 121';
+    return `rgba(${rgb},`;
+  };
+
+  let waveColor = readWaveColor();
+
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(window.innerWidth * dpr);
+    canvas.height = Math.floor(window.innerHeight * dpr);
+    canvas.style.width = `${window.innerWidth}px`;
+    canvas.style.height = `${window.innerHeight}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+
+  const frame = (now) => {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    for (let i = ripples.length - 1; i >= 0; i -= 1) {
+      const ripple = ripples[i];
+      const t = (now - ripple.born) / lifeMs;
+      if (t >= 1) {
+        ripples.splice(i, 1);
+        continue;
+      }
+      const easeOut = 1 - Math.pow(1 - t, 2);
+      const fade = 1 - t;
+      const radius = 6 + easeOut * (56 + ripple.strength * 20);
+      const alpha = fade * 0.38 * ripple.strength;
+      ctx.beginPath();
+      ctx.arc(ripple.x, ripple.y, radius, 0, Math.PI * 2);
+      ctx.strokeStyle = `${waveColor}${alpha})`;
+      ctx.lineWidth = 1.5 * fade;
+      ctx.stroke();
+
+      if (t < 0.55) {
+        const waveRadius = radius * 0.62;
+        ctx.beginPath();
+        ctx.arc(ripple.x, ripple.y, waveRadius, 0, Math.PI * 2);
+        ctx.strokeStyle = `${waveColor}${alpha * 0.65})`;
+        ctx.lineWidth = 0.9 * fade;
+        ctx.stroke();
+      }
+    }
+    if (ripples.length > 0) {
+      rafId = window.requestAnimationFrame(frame);
+    } else {
+      rafId = 0;
+    }
+  };
+
+  const addRipple = (x, y, strength) => {
+    ripples.push({
+      x,
+      y,
+      born: performance.now(),
+      strength
+    });
+    if (ripples.length > 48) ripples.splice(0, ripples.length - 48);
+    if (!rafId) {
+      rafId = window.requestAnimationFrame(frame);
+    }
+  };
+
+  window.addEventListener(
+    'mousemove',
+    (event) => {
+      const now = performance.now();
+      const dx = event.clientX - lastX;
+      const dy = event.clientY - lastY;
+      const dist = Math.hypot(dx, dy);
+      if (now - lastSpawn < minGapMs && dist < minDist) return;
+      lastX = event.clientX;
+      lastY = event.clientY;
+      lastSpawn = now;
+      const speed = Math.min(dist / 18, 1);
+      addRipple(event.clientX, event.clientY, 0.55 + speed * 0.35);
+    },
+    { passive: true }
+  );
+
+  const themeObserver = new MutationObserver(() => {
+    waveColor = readWaveColor();
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+})();

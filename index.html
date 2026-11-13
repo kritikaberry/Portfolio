@@ -20,12 +20,13 @@
   <title>Kritika Berry | AI &amp; Full-Stack Engineer</title>
   <meta name="description" content="Kritika Berry turns ambiguous problems into AI systems that run in production. Forward deployed engineering, product sense, and the work of shipping with real users.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261112h">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pixelify+Sans:ital,wght@0,400;1,400;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,500;1,8..60,600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <canvas class="cursor-wave-canvas" aria-hidden="true"></canvas>
   <svg class="name-glitch-filter" aria-hidden="true" focusable="false">
     <filter id="kb-name-glitch" x="-12%" y="-25%" width="124%" height="150%">
       <feTurbulence type="fractalNoise" baseFrequency="0.008 0.45" numOctaves="1" seed="4" result="noise">
@@ -68,6 +69,7 @@
   <section id="home" class="hero">
     <div class="hero-container">
       <div class="hero-content">
+        <p class="hero-eyebrow"><span class="status-dot" aria-hidden="true"></span> Open to AI, Forward Deployed &amp; Software roles</p>
         <h1 class="hero-name">
           <span class="name-first"><span class="name-word">Kritika</span></span>
           <span class="name-last"><span class="name-word">Berry</span></span>
@@ -83,38 +85,82 @@
         <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">View Work</a>
           <a href="https://calendly.com/kritikaberry/30min" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Let's talk</a>
+          <a href="resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">Resume</a>
         </div>
+        <dl class="hero-proof" aria-label="Career highlights">
+          <div><dt>4+</dt><dd>Years shipping in production</dd></div>
+          <div><dt>4</dt><dd>Hackathon wins</dd></div>
+          <div><dt>2×</dt><dd>Conference &amp; community speaker</dd></div>
+        </dl>
       </div>
       <div class="hero-visual">
-        <div class="orbit-system">
-          <div class="orbit-stage">
-          <div class="orbit-path orbit-path-outer"></div>
-
-          <div class="orbit orbit-outer">
-            <div class="orbit-slot" style="--angle: 0deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 0deg" tabindex="0"><img src="icons/python.svg" alt=""><span class="skill-orb-label">Python</span></div></div></div>
-            <div class="orbit-slot" style="--angle: 60deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 60deg" tabindex="0"><img src="icons/typescript.svg" alt=""><span class="skill-orb-label">TypeScript</span></div></div></div>
-            <div class="orbit-slot" style="--angle: 120deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 120deg" tabindex="0"><img src="icons/react.svg" alt=""><span class="skill-orb-label">React</span></div></div></div>
-            <div class="orbit-slot" style="--angle: 180deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 180deg" tabindex="0"><img src="icons/docker.svg" alt=""><span class="skill-orb-label">Docker</span></div></div></div>
-            <div class="orbit-slot" style="--angle: 240deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 240deg" tabindex="0"><img src="icons/elasticsearch.svg" alt=""><span class="skill-orb-label">Elasticsearch</span></div></div></div>
-            <div class="orbit-slot" style="--angle: 300deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 300deg" tabindex="0"><img src="icons/fastapi.svg" alt=""><span class="skill-orb-label">FastAPI</span></div></div></div>
-          </div>
-
-          <div class="avatar-container">
-            <div class="avatar-placeholder avatar-mark" role="img" aria-label="Laptop">
-              <svg class="laptop-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-                <rect x="12" y="14" width="40" height="28" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.75"/>
-                <path d="M16 22h14M16 28h22M16 34h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M6 44h52l-3.5 6H9.5L6 44z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+        <div class="hero-gear-embed">
+          <div class="orbit-system orbit-system--rich orbit-system--gear">
+            <div class="orbit-stage">
+              <div class="gear-well" aria-hidden="true"></div>
+              <svg class="gear-rings" viewBox="0 0 440 440" aria-hidden="true" focusable="false">
+                <g class="gear-wheel gear-wheel--outer">
+                  <circle class="gear-teeth gear-teeth--outer" cx="220" cy="220" r="204" fill="none" stroke-dasharray="15.5 19.72"/>
+                  <circle class="gear-rim" cx="220" cy="220" r="196" fill="none"/>
+                </g>
+                <g class="gear-wheel gear-wheel--mid">
+                  <circle class="gear-teeth gear-teeth--mid" cx="220" cy="220" r="142" fill="none" stroke-dasharray="13 18.88"/>
+                  <circle class="gear-rim" cx="220" cy="220" r="136" fill="none"/>
+                </g>
+                <g class="gear-wheel gear-wheel--inner">
+                  <circle class="gear-teeth gear-teeth--inner" cx="220" cy="220" r="54" fill="none" stroke-dasharray="8.5 12.7"/>
+                  <circle class="gear-rim" cx="220" cy="220" r="49" fill="none"/>
+                </g>
               </svg>
+              <div class="orbit-path orbit-path-outer"></div>
+              <div class="orbit-path orbit-path-mid"></div>
+              <div class="orbit-path orbit-path-inner"></div>
+              <div class="orbit orbit-outer">
+                <div class="orbit-slot" style="--angle: 0deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 0deg" tabindex="0"><img src="icons/python.svg" alt="" width="26" height="26"><span class="skill-orb-label">Python</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 45deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 45deg" tabindex="0"><img src="icons/typescript.svg" alt="" width="26" height="26"><span class="skill-orb-label">TypeScript</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 90deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 90deg" tabindex="0"><img src="icons/react.svg" alt="" width="26" height="26"><span class="skill-orb-label">React</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 135deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 135deg" tabindex="0"><img src="icons/angular.svg" alt="" width="26" height="26"><span class="skill-orb-label">Angular</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 180deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 180deg" tabindex="0"><img src="icons/docker.svg" alt="" width="26" height="26"><span class="skill-orb-label">Docker</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 225deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 225deg" tabindex="0"><img src="icons/kubernetes.svg" alt="" width="26" height="26"><span class="skill-orb-label">Kubernetes</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 270deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 270deg" tabindex="0"><img src="icons/elasticsearch.svg" alt="" width="26" height="26"><span class="skill-orb-label">Elasticsearch</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 315deg"><div class="orbit-upright"><div class="skill-orb" style="--angle: 315deg" tabindex="0"><img src="icons/fastapi.svg" alt="" width="26" height="26"><span class="skill-orb-label">FastAPI</span></div></div></div>
+              </div>
+              <div class="orbit orbit-mid">
+                <div class="orbit-slot" style="--angle: 20deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 20deg" tabindex="0"><img src="icons/microsoftazure.svg" alt="" width="22" height="22"><span class="skill-orb-label">Azure</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 80deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 80deg" tabindex="0"><img src="icons/amazonwebservices.svg" alt="" width="22" height="22"><span class="skill-orb-label">AWS</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 140deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 140deg" tabindex="0"><img src="icons/openai.svg" alt="" width="22" height="22"><span class="skill-orb-label">OpenAI</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 200deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 200deg" tabindex="0"><img src="icons/rag.svg" alt="" width="22" height="22"><span class="skill-orb-label">RAG</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 260deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 260deg" tabindex="0"><img src="icons/streamlit.svg" alt="" width="22" height="22"><span class="skill-orb-label">Streamlit</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 320deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 320deg" tabindex="0"><img src="icons/mongodb.svg" alt="" width="22" height="22"><span class="skill-orb-label">MongoDB</span></div></div></div>
+              </div>
+              <div class="orbit orbit-inner">
+                <div class="orbit-slot" style="--angle: 0deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 0deg" tabindex="0"><img src="icons/git.svg" alt="" width="22" height="22"><span class="skill-orb-label">Git</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 72deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 72deg" tabindex="0"><img src="icons/flask.svg" alt="" width="22" height="22"><span class="skill-orb-label">Flask</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 144deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 144deg" tabindex="0"><img src="icons/pandas.svg" alt="" width="22" height="22"><span class="skill-orb-label">Pandas</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 216deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 216deg" tabindex="0"><img src="icons/agentic.svg" alt="" width="22" height="22"><span class="skill-orb-label">Agents</span></div></div></div>
+                <div class="orbit-slot" style="--angle: 288deg"><div class="orbit-upright"><div class="skill-orb skill-orb--sm" style="--angle: 288deg" tabindex="0"><img src="icons/powerbi.svg" alt="" width="22" height="22"><span class="skill-orb-label">Power BI</span></div></div></div>
+              </div>
+              <div class="avatar-container">
+                <div class="avatar-placeholder avatar-mark" role="img" aria-label="Laptop">
+                  <svg class="laptop-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <rect x="12" y="14" width="40" height="28" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.75"/>
+                    <path d="M16 22h14M16 28h22M16 34h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M6 44h52l-3.5 6H9.5L6 44z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="scroll-indicator" aria-hidden="true">
-      <div class="scroll-line"></div>
-  </div>
+    <p class="hero-trust" aria-label="Recognition">
+      <span>Elastic Community Speaker</span><span aria-hidden="true">·</span>
+      <span>BadgeSummit Speaker</span><span aria-hidden="true">·</span>
+      <span>AWS Breaking Barriers — DC Track Winner</span><span aria-hidden="true">·</span>
+      <span>Providence SPOT &amp; BRAVO Awards</span><span aria-hidden="true">·</span>
+      <span>GWU Merit Scholar</span>
+    </p>
 </section>
 
   <!-- About Section -->
@@ -141,79 +187,75 @@
               </div>
             </div>
             <div class="stat-item">
-              <div class="stat-number">3</div>
+              <div class="stat-number">4</div>
               <div class="stat-label">Hackathon Wins</div>
             </div>
           </div>
         </div>
         <div class="about-skills">
-          <h3 class="skills-title">Skills & Technologies</h3>
+          <h3 class="skills-title">Skills &amp; Technologies</h3>
           <div class="skills-grid">
             <div class="skill-category">
               <h4 class="category-name">Applied AI</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/rag.svg" alt="">RAG</span>
-                <span class="skill-tag"><img src="icons/agentic.svg" alt="">Agentic AI</span>
-                <span class="skill-tag"><img src="icons/nlp.svg" alt="">NLP</span>
-                <span class="skill-tag"><img src="icons/bert.svg" alt="">BERT</span>
-                <span class="skill-tag"><img src="icons/scikitlearn.svg" alt="">scikit-learn</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4 class="category-name">AI Drivers</h4>
-              <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/claude.svg" alt="">Claude</span>
-                <span class="skill-tag"><img src="icons/cursor.svg" alt="">Cursor</span>
-                <span class="skill-tag"><img src="icons/openai.svg" alt="">OpenAI</span>
+                <span class="skill-tag"><img src="icons/rag.svg" alt="" width="16" height="16" loading="lazy" decoding="async">RAG</span>
+                <span class="skill-tag"><img src="icons/agentic.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Agentic AI</span>
+                <span class="skill-tag"><img src="icons/nlp.svg" alt="" width="16" height="16" loading="lazy" decoding="async">NLP</span>
+                <span class="skill-tag"><img src="icons/bert.svg" alt="" width="16" height="16" loading="lazy" decoding="async">BERT</span>
+                <span class="skill-tag skill-extra"><img src="icons/scikitlearn.svg" alt="" width="16" height="16" loading="lazy" decoding="async">scikit-learn</span>
+                <span class="skill-tag skill-extra"><img src="icons/openai.svg" alt="" width="16" height="16" loading="lazy" decoding="async">OpenAI</span>
+                <span class="skill-tag skill-extra"><img src="icons/claude.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Claude</span>
+                <span class="skill-tag skill-extra"><img src="icons/cursor.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Cursor</span>
               </div>
             </div>
             <div class="skill-category">
               <h4 class="category-name">Frontend</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/angular.svg" alt="">Angular</span>
-                <span class="skill-tag"><img src="icons/typescript.svg" alt="">TypeScript</span>
-                <span class="skill-tag"><img src="icons/react.svg" alt="">React</span>
-                <span class="skill-tag"><img src="icons/ionic.svg" alt="">Ionic</span>
+                <span class="skill-tag"><img src="icons/react.svg" alt="" width="16" height="16" loading="lazy" decoding="async">React</span>
+                <span class="skill-tag"><img src="icons/typescript.svg" alt="" width="16" height="16" loading="lazy" decoding="async">TypeScript</span>
+                <span class="skill-tag"><img src="icons/angular.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Angular</span>
+                <span class="skill-tag"><img src="icons/ionic.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Ionic</span>
               </div>
             </div>
             <div class="skill-category">
               <h4 class="category-name">Backend</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/python.svg" alt="">Python</span>
-                <span class="skill-tag"><img src="icons/fastapi.svg" alt="">FastAPI</span>
-                <span class="skill-tag"><img src="icons/flask.svg" alt="">Flask</span>
-                <span class="skill-tag"><img src="icons/dotnet.svg" alt="">.NET</span>
-                <span class="skill-tag"><img src="icons/nodedotjs.svg" alt="">Node.js</span>
+                <span class="skill-tag"><img src="icons/python.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Python</span>
+                <span class="skill-tag"><img src="icons/fastapi.svg" alt="" width="16" height="16" loading="lazy" decoding="async">FastAPI</span>
+                <span class="skill-tag"><img src="icons/flask.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Flask</span>
+                <span class="skill-tag"><img src="icons/dotnet.svg" alt="" width="16" height="16" loading="lazy" decoding="async">.NET</span>
+                <span class="skill-tag skill-extra"><img src="icons/nodedotjs.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Node.js</span>
               </div>
             </div>
             <div class="skill-category">
-              <h4 class="category-name">Cloud</h4>
+              <h4 class="category-name">Cloud &amp; Ops</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/microsoftazure.svg" alt="">Azure</span>
-                <span class="skill-tag"><img src="icons/amazonwebservices.svg" alt="">AWS</span>
-                <span class="skill-tag"><img src="icons/docker.svg" alt="">Docker</span>
-                <span class="skill-tag"><img src="icons/kubernetes.svg" alt="">Kubernetes</span>
-                <span class="skill-tag"><img src="icons/bicep.svg" alt="">Bicep</span>
-                <span class="skill-tag"><img src="icons/keyvault.svg" alt="">Key Vault</span>
+                <span class="skill-tag"><img src="icons/microsoftazure.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Azure</span>
+                <span class="skill-tag"><img src="icons/amazonwebservices.svg" alt="" width="16" height="16" loading="lazy" decoding="async">AWS</span>
+                <span class="skill-tag"><img src="icons/docker.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Docker</span>
+                <span class="skill-tag"><img src="icons/kubernetes.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Kubernetes</span>
+                <span class="skill-tag skill-extra"><img src="icons/bicep.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Bicep</span>
+                <span class="skill-tag skill-extra"><img src="icons/keyvault.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Key Vault</span>
               </div>
             </div>
             <div class="skill-category">
               <h4 class="category-name">Data</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/sql.svg" alt="">SQL</span>
-                <span class="skill-tag"><img src="icons/pandas.svg" alt="">Pandas</span>
-                <span class="skill-tag"><img src="icons/numpy.svg" alt="">NumPy</span>
-                <span class="skill-tag"><img src="icons/powerbi.svg" alt="">Power BI</span>
+                <span class="skill-tag"><img src="icons/sql.svg" alt="" width="16" height="16" loading="lazy" decoding="async">SQL</span>
+                <span class="skill-tag"><img src="icons/pandas.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Pandas</span>
+                <span class="skill-tag"><img src="icons/numpy.svg" alt="" width="16" height="16" loading="lazy" decoding="async">NumPy</span>
+                <span class="skill-tag"><img src="icons/powerbi.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power BI</span>
               </div>
             </div>
             <div class="skill-category">
-              <h4 class="category-name">Product</h4>
+              <h4 class="category-name">Product &amp; Tools</h4>
               <div class="skill-tags">
-                <span class="skill-tag"><img src="icons/figma.svg" alt="">Figma</span>
-                <span class="skill-tag"><img src="icons/git.svg" alt="">Git</span>
+                <span class="skill-tag"><img src="icons/figma.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Figma</span>
+                <span class="skill-tag"><img src="icons/git.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Git</span>
               </div>
             </div>
           </div>
+          <button type="button" class="skills-toggle" id="skillsToggle" aria-expanded="false">Show all skills</button>
         </div>
       </div>
   </div>
@@ -1085,120 +1127,48 @@
         <span class="section-number">03</span>
         <h2 class="section-title">Achievements & Recognition</h2>
       </div>
-      <div class="achievements-showcase">
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🎤</div>
-            <div class="badge-content">
-              <div class="badge-rank">Talk</div>
-              <h3 class="badge-title">Elastic Community</h3>
-              <p class="badge-description">Speaker at the Elastic Washington, D.C. User Group</p>
-              <div class="badge-detail">
-                <p>Dashboards to Decisions: a self-correcting ML loop with Elastic Observability</p>
-              </div>
-              <div class="badge-date">Sep 16, 2026</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🎤</div>
-            <div class="badge-content">
-              <div class="badge-rank">Talk</div>
-              <h3 class="badge-title">Featured Speaker</h3>
-              <p class="badge-description">BadgeSummit 2026 at CU Boulder, on credential alignment and the research behind it</p>
-              <div class="badge-detail">
-                <p>Selected while building the workforce-skills pipeline at GWIPP</p>
-              </div>
-              <div class="badge-date">2026</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🏆</div>
-            <div class="badge-content">
-              <div class="badge-rank">#1</div>
-              <h3 class="badge-title">Trustworthy AI</h3>
-              <p class="badge-description">First place at the Trustworthy AI Hackathon 2026, GWU</p>
-              <div class="badge-detail">
-                <p>An AI incident notebook and agent meant for people who write policy</p>
-              </div>
-              <div class="badge-date">2026</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🤟</div>
-            <div class="badge-content">
-              <div class="badge-rank">Best</div>
-              <h3 class="badge-title">SignConnect</h3>
-              <p class="badge-description">Best hackathon project of 24 teams at Providence Global Center</p>
-              <div class="badge-detail">
-                <p>Real-time ASL translation for healthcare, at 85% accuracy</p>
-              </div>
-              <div class="badge-date">Providence</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🏅</div>
-            <div class="badge-content">
-              <div class="badge-rank">MLH</div>
-              <h3 class="badge-title">Solana Spot Prize</h3>
-              <p class="badge-description">Major League Hacking prize at GeorgeHacks 2026, with GWU and the UN</p>
-              <div class="badge-detail">
-                <p>For Resilient Food Systems, coordinating food aid around disasters</p>
-              </div>
-              <div class="badge-date">2026</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">✦</div>
-            <div class="badge-content">
-              <div class="badge-rank">AT</div>
-              <h3 class="badge-title">Providence Honors</h3>
-              <p class="badge-description">SPOT Award, BRAVO Team Award, Team Award for automations, and Ideathon winner</p>
-              <div class="badge-detail">
-                <p>For delivery, a chatbot experience, an automations project, and an ideathon at Providence India</p>
-              </div>
-              <div class="badge-date">Providence</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-        <div class="achievement-badge">
-          <div class="badge-ribbon ribbon-top"></div>
-          <div class="badge-body">
-            <div class="badge-icon">🎓</div>
-            <div class="badge-content">
-              <div class="badge-rank">MS</div>
-              <h3 class="badge-title">Merit Scholarship</h3>
-              <p class="badge-description">M.S. in Computer Science at George Washington University, focused on artificial intelligence</p>
-              <div class="badge-detail">
-                <p>GPA 3.57. Before that, a B.Tech at SMIT with a 9.68</p>
-              </div>
-              <div class="badge-date">2025–2027</div>
-            </div>
-          </div>
-          <div class="badge-shine"></div>
-        </div>
-      </div>
+      <ul class="achievements-list">
+        <li class="achievement-item is-featured">
+          <span class="achievement-mark">Winner</span>
+          <div class="achievement-text"><h3>Breaking Barriers · DC Track</h3><p>DC track winner at the AWS Breaking Barriers Hackathon</p></div>
+          <span class="achievement-meta">AWS</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">Speaker</span>
+          <div class="achievement-text"><h3>Elastic Community</h3><p>Elastic Washington, D.C. User Group — “Dashboards to Decisions: a self-correcting ML loop with Elastic Observability”</p></div>
+          <span class="achievement-meta">Sep 16, 2026</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">Speaker</span>
+          <div class="achievement-text"><h3>BadgeSummit 2026</h3><p>Featured speaker at CU Boulder on credential alignment, from the GWIPP workforce-skills pipeline</p></div>
+          <span class="achievement-meta">2026</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">#1</span>
+          <div class="achievement-text"><h3>Trustworthy AI Hackathon</h3><p>First place at GWU — an AI incident notebook and agent for people who write policy</p></div>
+          <span class="achievement-meta">2026</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">Best</span>
+          <div class="achievement-text"><h3>SignConnect</h3><p>Best hackathon project of 24 teams at Providence — real-time ASL translation for healthcare at 85% accuracy</p></div>
+          <span class="achievement-meta">Providence</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">MLH</span>
+          <div class="achievement-text"><h3>Solana Spot Prize</h3><p>Major League Hacking prize at GeorgeHacks 2026 with GWU and the UN, for Resilient Food Systems</p></div>
+          <span class="achievement-meta">2026</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">Honors</span>
+          <div class="achievement-text"><h3>Providence Honors</h3><p>SPOT Award, BRAVO Team Award, Team Award for automations, and Ideathon winner</p></div>
+          <span class="achievement-meta">Providence</span>
+        </li>
+        <li class="achievement-item">
+          <span class="achievement-mark">Scholar</span>
+          <div class="achievement-text"><h3>GWU Merit Scholarship</h3><p>M.S. in Computer Science focused on AI, GPA 3.57 · B.Tech at SMIT, 9.68/10</p></div>
+          <span class="achievement-meta">2025–2027</span>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -1234,7 +1204,7 @@
       <div class="projects-grid">
         <div class="project-card" data-skills="Python,scikit-learn,pandas,Elasticsearch,Docker,HDBSCAN">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/python.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/python.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/Self-Correcting-ML-Loop-with-Elastic-Observability" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
             </div>
@@ -1254,7 +1224,7 @@
         </div>
         <div class="project-card" data-skills="TypeScript,React,Node.js,Express,WebSocket">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/react.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/react.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/Intelligent-Support-Center" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
             </div>
@@ -1274,7 +1244,7 @@
         </div>
         <div class="project-card" data-skills="React,FastAPI,MongoDB,Tailwind,JavaScript,Python">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/fastapi.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/fastapi.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/GeorgeHacks_Food4All" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
             </div>
@@ -1293,7 +1263,7 @@
         </div>
         <div class="project-card" data-skills="Python,Jupyter,Streamlit">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/streamlit.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/streamlit.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/TAI-Hackathon-Riverhouse-Problem5" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
               <a href="https://aiidsdatahouse.streamlit.app/" class="project-link" aria-label="Live dashboard" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-live"></span></a>
@@ -1312,7 +1282,7 @@
         </div>
         <div class="project-card" data-skills="Python,Flask,scikit-learn,pandas">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/flask.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/flask.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/Crime_Prediction_and_Analysis" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
             </div>
@@ -1331,7 +1301,7 @@
         </div>
         <div class="project-card" data-skills="Python,Flask,OpenCV">
           <div class="project-header">
-            <div class="project-icon"><img src="icons/opencv.svg" alt=""></div>
+            <div class="project-icon"><img loading="lazy" decoding="async" width="46" height="46" src="icons/opencv.svg" alt=""></div>
             <div class="project-links">
               <a href="https://github.com/kritikaberry/maskit_facemaskdetector" class="project-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><span class="link-mark link-mark-github"></span></a>
             </div>
@@ -1440,6 +1410,6 @@
   </div>
 </section>
 
-<script src="script.js"></script>
+<script src="script.js?v=20261112h" defer></script>
 </body>
 </html>
