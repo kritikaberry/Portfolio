@@ -2,7 +2,13 @@
   var STORE = 'kb-insights-v1';
   var SESSION = 'kb-session-v1';
   var VISITOR = 'kb-visitor-v1';
+  var SKIP = 'kb-insights-skip';
   var onInsights = /insights\.html$/.test(location.pathname);
+
+  function skipped() {
+    try { return localStorage.getItem(SKIP) === '1'; }
+    catch (e) { return false; }
+  }
 
   function blank() {
     return {
@@ -266,12 +272,20 @@
   }
 
   if (onInsights) {
+    try {
+      if (localStorage.getItem(SKIP) !== '1') {
+        localStorage.setItem(SKIP, '1');
+        localStorage.removeItem(STORE);
+        localStorage.removeItem(VISITOR);
+      }
+    } catch (e) {}
     renderInsights();
     window.addEventListener('storage', renderInsights);
     setInterval(renderInsights, 4000);
     return;
   }
 
+  if (skipped()) return;
   if (navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.webdriver) return;
 
   if (!sessionStorage.getItem(SESSION)) {

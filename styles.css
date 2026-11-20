@@ -3554,6 +3554,12 @@ section[id] {
   color: var(--color-text-secondary);
 }
 
+.insights-owner {
+  margin-top: 0.35rem;
+  color: var(--color-text-tertiary);
+  font-size: 0.82rem;
+}
+
 .insights-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
